@@ -31,13 +31,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        http.csrf().disable();
+
+
+
         http.authorizeRequests()
                 .antMatchers("/user/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()
                 .and().logout()   //logout configuration
                 .logoutUrl("/appLogout")
-                .logoutSuccessUrl("/app/login");
+                .logoutSuccessUrl("/login");
 
         http.formLogin()
                 .successHandler(successUserHandler)

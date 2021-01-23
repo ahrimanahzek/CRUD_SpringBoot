@@ -56,4 +56,8 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return role;
     }
+
+    public static Set<Role> getAllRoles() {
+        return null;
+    }
 }

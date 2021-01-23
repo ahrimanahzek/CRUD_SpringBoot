@@ -17,6 +17,15 @@ public class User implements UserDetails {
     @Column(name = "username")
     private String firstName;
 
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "age")
+    private String age;
+
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "password")
     private String password;
 
@@ -119,4 +128,42 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public String getRolesString() {
+        Set<Role> currentRoles = getRoles();
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Role el : currentRoles) {
+            stringBuilder.append(el.getRole()).append(" ");
+        }
+
+        return stringBuilder.toString();
+
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

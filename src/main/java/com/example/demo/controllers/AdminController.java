@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.Role;
 import com.example.demo.models.User;
+import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,12 +15,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("user/admin")
 public class AdminController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping()
     public String index(Model model){
@@ -34,12 +40,15 @@ public class AdminController {
 
         model.addAttribute("authorityString", stringBuilder.toString());
         model.addAttribute("currentUser", currentUser);
+        model.addAttribute("allRoles", roleService.getAllRoles());
         model.addAttribute("users", userService.index());
+        model.addAttribute("newUser", new User());
         return "user/admin/index";
     }
 
     @GetMapping("/new")
-    public String index(@ModelAttribute("user") User user){
+    public String index(@ModelAttribute("user") User user, Model model){
+        model.addAttribute("rolesAll", roleService.getAllRoles());
         return "user/admin/new";
     }
 
@@ -61,13 +70,13 @@ public class AdminController {
         return "user/admin/show";
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     public String update(@PathVariable("id") Long id, @ModelAttribute("user") User user){
         userService.update(id, user);
         return "redirect:/user/admin/";
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id){
         userService.delete(id);
         return "redirect:/user/admin/";
